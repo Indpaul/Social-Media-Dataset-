@@ -1,0 +1,72 @@
+-- Create the Users table
+
+CREATE TABLE Users (
+  UserID INT PRIMARY KEY,
+  Username VARCHAR(50),
+  Email VARCHAR(100),
+  DateOfBirth DATE
+);
+
+-- Insert data into the Users table
+
+INSERT INTO Users (UserID, Username, Email, DateOfBirth)
+VALUES (1, 'JohnDoe', 'john.doe@example.com', TO_DATE('1990-01-15', 'YYYY-MM-DD'));
+
+INSERT INTO Users (UserID, Username, Email, DateOfBirth)
+VALUES (2, 'JaneSmith', 'jane.smith@example.com', TO_DATE('1992-05-22', 'YYYY-MM-DD'));
+
+-- Create the Posts table
+
+CREATE TABLE Posts (
+  PostID INT PRIMARY KEY,
+  UserID INT,
+  Content VARCHAR(500),
+  PostDate DATE,
+  FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+-- Insert data into the Posts table
+
+INSERT INTO Posts (PostID, UserID, Content, PostDate)
+VALUES (1, 1, 'Hello world!', TO_DATE('2023-05-30', 'YYYY-MM-DD'));
+
+INSERT INTO Posts (PostID, UserID, Content, PostDate)
+VALUES (2, 2, 'Excited for the weekend!', TO_DATE('2023-05-31', 'YYYY-MM-DD'));
+
+-- Create the Likes table
+
+CREATE TABLE Likes (
+  LikeID INT PRIMARY KEY,
+  UserID INT,
+  PostID INT,
+  LikeDate DATE,
+  FOREIGN KEY (UserID) REFERENCES Users(UserID),
+  FOREIGN KEY (PostID) REFERENCES Posts(PostID)
+);
+
+-- Insert data into the Likes table
+
+INSERT INTO Likes (LikeID, UserID, PostID, LikeDate)
+VALUES (1, 2, 1, TO_DATE('2023-05-30', 'YYYY-MM-DD'));
+
+INSERT INTO Likes (LikeID, UserID, PostID, LikeDate)
+VALUES (2, 1, 2, TO_DATE('2023-05-31', 'YYYY-MM-DD'));
+
+-- Create the Follows table
+
+CREATE TABLE Follows (
+  FollowerID INT,
+  FolloweeID INT,
+  FollowDate DATE,
+  PRIMARY KEY (FollowerID, FolloweeID),
+  FOREIGN KEY (FollowerID) REFERENCES Users(UserID),
+  FOREIGN KEY (FolloweeID) REFERENCES Users(UserID)
+);
+
+-- Insert data into the Follows table
+
+INSERT INTO Follows (FollowerID, FolloweeID, FollowDate)
+VALUES (1, 2, TO_DATE('2023-05-30', 'YYYY-MM-DD'));
+
+INSERT INTO Follows (FollowerID, FolloweeID, FollowDate)
+VALUES (2, 1, TO_DATE('2023-05-31', 'YYYY-MM-DD'));
