@@ -1,0 +1,48 @@
+-- Problem # 1. Calculate the total number of posts
+Ans)
+SELECT COUNT(*) AS NUMBER_OF_POSTS FROM POSTS
+
+-- Problem # 2. Calculate the average number of likes per post
+Ans)
+select avg(I.LikeCount) as average_like from
+(select PostID, Count(*) as LikeCount from Likes GROUP BY PostID)I;
+
+-- Problem # 3. Retrieve the usernames of all users in uppercase
+Ans)
+select upper(username) as uppercase_username from users;
+
+-- Problem # 4. Find the age of each user in years
+Ans)
+select username, extract(Year from sysdate) - extract(Year from dateofbirth) as age_in_years from users
+
+-- Problem # 5. Retrieve the usernames of users who have liked a post
+Ans)
+select distinct Users.Username from Users join Likes on Users.UserID=Likes.UserID
+
+-- Problem # 6 Retrieve the likes count as a decimal with two decimal places
+Ans)
+Select PostID, CAST(LikeCount AS DECIMAL(5,2)) as likes_count_decimal from  
+(Select Posts.PostID, Count(*) as LikeCount from Posts left join Likes on Posts.PostID=Likes.PostID Group by Posts.PostID) I
+
+-- Problem # 7 Retrieve the total number of likes for each post along with the post content.
+Ans)
+Select Posts.PostID, Posts.Content, Count(*) as total_likes from Posts JOIN Likes on Posts.PostID = Likes.PostID Group by Posts.PostID
+
+-- Problem # 8 Retrieve the posts along with the number of days since they were created
+Ans)
+Select PostID, DATEDIFF(CURRENT_DATE , PostDate) as days_since_creation from Posts;
+
+-- Problem # 8 Retrieve the usernames of users who are followed by a specific user
+Ans)
+Select Users.Username from Users JOIN Follows on Users.UserID = Follows.FolloweeID  
+where UserID=2
+
+-- Problem # 9 Retrieve the usernames of users whose email addresses contain "example.com".
+Ans)
+select Username from Users  
+where Email like '%example.com%'
+
+-- Problem # 10 Retrieve the posts along with the number of likes for each post
+Ans)
+select Posts.PostID, count(*) as Likes_count from Posts JOIN Likes on Posts.PostID = Likes.PostID 
+Group by Posts.PostID
